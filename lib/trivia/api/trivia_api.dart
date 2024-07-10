@@ -2,16 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter_trivia/trivia/models/questions.dart';
 
 class TriviaApi {
-  final Dio _dio = Dio(BaseOptions(
-    baseUrl: "https://opentdb.com/api.php",
-  ));
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: "https://opentdb.com/api.php",
+    ),
+  );
 
   Future<List<Question>> getQuestions(
       {required int amount, required int category}) async {
     Response response = await _dio.get("", queryParameters: {
       _APIParams.amount: amount,
       _APIParams.category: category,
-      _APIParams.difficulty: _DifficultyTypes.hard,
+      _APIParams.difficulty: DifficultyTypes.hard,
       _APIParams.type: "multiple",
       _APIParams.encode: "url3986",
     });
@@ -35,13 +37,35 @@ class _APIParams {
   static const String encode = "encode";
 }
 
-class _DifficultyTypes {
+class DifficultyTypes {
   static const String easy = "easy";
   static const String medium = "medium";
   static const String hard = "hard";
 }
 
 class CategoryTypes {
-  static const int manga = 31;
+  static const int general = 9;
+  static const int books = 10;
+  static const int movies = 11;
+  static const int music = 12;
+  static const int musicalsTheatres = 13;
+  static const int television = 14;
+  static const int videoGames = 15;
+  static const int boardGames = 16;
+  static const int nature = 17;
   static const int scienceComputers = 18;
+  static const int math = 19;
+  static const int mythology = 20;
+  static const int sports = 21;
+  static const int geography = 22;
+  static const int history = 23;
+  static const int politics = 24;
+  static const int art = 25;
+  static const int celebrities = 26;
+  static const int animals = 27;
+  static const int vehicles = 28;
+  static const int comics = 29;
+  static const int gadgets = 30;
+  static const int animeManga = 31;
+  static const int cartoon = 32;
 }

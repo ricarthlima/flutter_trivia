@@ -29,7 +29,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                Uri.decodeFull(widget.question.question),
+                widget.question.question,
                 style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -44,7 +44,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       Navigator.pop(context,
                           listAnswers[index] == widget.question.correctAnswer);
                     },
-                    child: Text(Uri.decodeFull(listAnswers[index])),
+                    child: Text(listAnswers[index]),
                   );
                 }),
               )
