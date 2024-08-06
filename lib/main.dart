@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trivia/themes/theme_data.dart';
 import 'package:flutter_trivia/trivia/screens/home_screen.dart';
 import 'package:translator/translator.dart';
 
@@ -14,8 +15,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.light,
+      theme: theme,
       home: const HomeScreen(),
     );
   }
