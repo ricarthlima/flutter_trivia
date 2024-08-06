@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trivia/themes/theme_data.dart';
 import 'package:flutter_trivia/trivia/api/trivia_api.dart';
 import 'package:flutter_trivia/trivia/screens/home_screen.dart';
 
@@ -16,8 +17,9 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
       appBar: AppBar(
+        backgroundColor: theme.colorScheme.primary,
+        foregroundColor: theme.colorScheme.onPrimary,
         leading: IconButton(
           onPressed: () {
             Navigator.pushReplacement(

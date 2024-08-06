@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trivia/components/buttons.dart';
 import 'package:flutter_trivia/trivia/api/trivia_api.dart';
 import 'package:flutter_trivia/trivia/helpers/snackbar_default.dart';
 import 'package:flutter_trivia/trivia/models/questions.dart';
@@ -39,28 +40,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 32),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NewMatchScreen(),
-                    ),
-                  );
-                },
-                child: const Text("Iniciar"),
-              ),
-              ElevatedButton(
-                onPressed: () {
+              PrimaryButton(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NewMatchScreen()));
+                  },
+                  text: "Iniciar"),
+              PrimaryButton(
+                onTap: () {
                   showSnackBarDefault(context, "Em construção.");
                 },
-                child: const Text("Instruções"),
+                text: "Instruções",
               ),
-              ElevatedButton(
-                onPressed: () {
+              PrimaryButton(
+                onTap: () {
                   showSnackBarDefault(context, "Em construção.");
                 },
-                child: const Text("Configurações"),
+                text: "Configurações",
               ),
             ],
           ),
