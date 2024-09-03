@@ -13,6 +13,28 @@ class NewMatchScreen extends StatefulWidget {
 class _NewMatchScreenState extends State<NewMatchScreen> {
   double amountQuestions = 1;
   String currentDifficulty = DifficultyTypes.easy;
+  Map<String, int> mapCategorias = {
+    "Geral": CategoryTypes.general,
+    "Livros": CategoryTypes.books,
+    "Filmes": CategoryTypes.movies,
+    "Música": CategoryTypes.music,
+    "Jogos": CategoryTypes.videoGames,
+    "Quadrinhos": CategoryTypes.comics,
+    "Anime/Mangá": CategoryTypes.animeManga,
+    "Arte": CategoryTypes.art,
+    "História": CategoryTypes.history,
+    "Geografia": CategoryTypes.geography,
+  };
+
+  List<String> listaCategoriasSelecionadas = [];
+  List<String> listaCategoriasDisponiveis = [];
+
+  @override
+  void initState() {
+    listaCategoriasDisponiveis = mapCategorias.keys.toList();
+    listaCategoriasDisponiveis.sort();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +53,18 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
           icon: const Icon(Icons.arrow_back),
         ),
         title: const Text("Nova Partida"),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.check))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              TriviaApi().generateQuestionsByUser(
+                amount: amountQuestions.toInt(),
+                difficulty: currentDifficulty,
+                categories: listaCategoriasSelecionadas,
+              );
+            },
+            icon: const Icon(Icons.check),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -95,7 +128,58 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
               "Categorias",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Container(),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[700],
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.all(16),
+              child: (listaCategoriasSelecionadas.isEmpty)
+                  ? const Text(
+                      "Nenhuma categoria selecionada",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white),
+                    )
+                  : Wrap(
+                      children: List.generate(
+                        listaCategoriasSelecionadas.length,
+                        (index) {
+                          String categoria = listaCategoriasSelecionadas[index];
+                          return ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                listaCategoriasSelecionadas.remove(categoria);
+                                listaCategoriasDisponiveis.add(categoria);
+
+                                listaCategoriasDisponiveis.sort();
+                              });
+                            },
+                            child: Text(categoria),
+                          );
+                        },
+                      ),
+                    ),
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              children: List.generate(
+                listaCategoriasDisponiveis.length,
+                (index) {
+                  String categoria = listaCategoriasDisponiveis[index];
+                  return ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        listaCategoriasSelecionadas.add(categoria);
+                        listaCategoriasDisponiveis.remove(categoria);
+
+                        listaCategoriasSelecionadas.sort();
+                      });
+                    },
+                    child: Text(categoria),
+                  );
+                },
+              ),
+            )
             //GridView(gridDelegate: gridDelegate)
           ],
         ),

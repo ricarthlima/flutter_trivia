@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_trivia/trivia/models/questions.dart';
 
@@ -26,6 +28,44 @@ class TriviaApi {
     }
 
     return questions;
+  }
+
+  Future<List<Question>> generateQuestionsByUser({
+    required int amount,
+    required String difficulty,
+    required List<String> categories,
+  }) async {
+    List<Future<Response>> listaOperacoes = [];
+
+    int quo = amount ~/ categories.length;
+    int resto = amount % categories.length;
+
+    int indexRandom = Random().nextInt(categories.length);
+
+    for (String categoria in categories) {
+      int innerAmount = quo;
+
+      if (categories[indexRandom] == categoria) {
+        innerAmount += resto;
+      }
+
+      listaOperacoes.add(
+        _dio.get(
+          "",
+          queryParameters: {
+            _APIParams.amount: innerAmount,
+            _APIParams.category: categoria,
+            _APIParams.difficulty: difficulty,
+            _APIParams.type: "multiple",
+            _APIParams.encode: "url3986",
+          },
+        ),
+      );
+    }
+
+    List<Response> listResponse = await Future.wait(listaOperacoes);
+    //TODO: Tratar cada uma das respostas, para transformar em uma
+    // grande lista de Question
   }
 }
 

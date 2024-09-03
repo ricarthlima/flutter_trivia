@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trivia/components/buttons.dart';
-import 'package:flutter_trivia/trivia/api/trivia_api.dart';
 import 'package:flutter_trivia/trivia/helpers/snackbar_default.dart';
 import 'package:flutter_trivia/trivia/models/questions.dart';
 import 'package:flutter_trivia/trivia/screens/new_match_screen.dart';
@@ -14,8 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TriviaApi _api = TriviaApi();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
