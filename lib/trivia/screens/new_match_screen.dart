@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trivia/components/segmented_buttons.dart';
 import 'package:flutter_trivia/themes/theme_data.dart';
 import 'package:flutter_trivia/trivia/api/trivia_api.dart';
 import 'package:flutter_trivia/trivia/screens/home_screen.dart';
@@ -56,11 +57,11 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              TriviaApi().generateQuestionsByUser(
-                amount: amountQuestions.toInt(),
-                difficulty: currentDifficulty,
-                categories: listaCategoriasSelecionadas,
-              );
+              // TriviaApi().generateQuestionsByUser(
+              //   amount: amountQuestions.toInt(),
+              //   difficulty: currentDifficulty,
+              //   categories: listaCategoriasSelecionadas,
+              // );
             },
             icon: const Icon(Icons.check),
           ),
@@ -105,7 +106,6 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 DifficultyNewMatchItem(
                   difficulty: DifficultyTypes.easy,
@@ -191,39 +191,5 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
     setState(() {
       currentDifficulty = difficulty;
     });
-  }
-}
-
-class DifficultyNewMatchItem extends StatelessWidget {
-  final String difficulty;
-  final String currentDifficulty;
-  final Function onTap;
-
-  const DifficultyNewMatchItem({
-    super.key,
-    required this.difficulty,
-    required this.currentDifficulty,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onTap(difficulty);
-      },
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        height: 32,
-        decoration: BoxDecoration(
-            color: (difficulty == currentDifficulty)
-                ? Colors.red[900]
-                : Colors.grey[900]),
-        child: Text(
-          difficulty,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ),
-    );
   }
 }
