@@ -1,16 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trivia/themes/theme_data.dart';
 
-class DifficultyNewMatchItem extends StatelessWidget {
-  final String difficulty;
-  final String currentDifficulty;
-  final Function onTap;
+class SegmentedContainer extends StatelessWidget {
+  final List<Segment> segments;
 
-  const DifficultyNewMatchItem({
+  const SegmentedContainer({super.key, required this.segments});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: segments,);
+  }
+}
+
+class Segment extends StatelessWidget {
+  /// É o texto que aparece dentro do botão `Segment`.
+  final String label;
+  /// É o valor *final* definido do `Segment` atual.
+  final dynamic value;
+  /// É o valor observado pelos `Segments`.
+  /// 
+  /// Esse valor precisa ser passado de forma igual para cada `Segment` dentro de um `SegmentContainer`.
+  final dynamic currentValue;
+  /// É uma função que atualiza o estado do `currentValue`.
+  /// 
+  /// Precisa receber um novo valor e atualizar o currentValue chamando um `setState()`.
+  /// 
+  /// ```dart
+  /// switchDifficulty(String difficulty) {
+  ///   setState(() {
+  ///     currentDifficulty = difficulty;
+  ///   });
+  /// }
+  /// ```
+  final Function updateCurrentValue;
+
+  const Segment({
     super.key,
-    required this.difficulty,
-    required this.currentDifficulty,
-    required this.onTap,
+    required this.label,
+    required this.value,
+    required this.currentValue,
+    required this.updateCurrentValue,
   });
 
   @override
@@ -21,18 +50,18 @@ class DifficultyNewMatchItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: InkWell(
           onTap: () {
-            onTap(difficulty);
+            updateCurrentValue(value);
           },
           child: Ink(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-                color: (difficulty == currentDifficulty)
+                color: (value == currentValue)
                     ? theme.colorScheme.primary
                     : theme.colorScheme.surfaceDim),
             child: Text(
-              difficulty,
-              style: const TextStyle(color: Colors.white),
+              label,
+              style: TextStyle(color: (value == currentValue) ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface),
               textAlign: TextAlign.center,
             ),
           ),
@@ -49,3 +78,7 @@ class DifficultyNewMatchItem extends StatelessWidget {
 //     - Mudar a cor do seletor
 //     - Dizer qual a dificuldade selecionada
 //
+
+/*
+Vai ser ignorado com sucesso
+*/

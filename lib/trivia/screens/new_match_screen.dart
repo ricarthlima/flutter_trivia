@@ -105,22 +105,25 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
               "Dificuldade",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            Row(
-              children: <Widget>[
-                DifficultyNewMatchItem(
-                  difficulty: DifficultyTypes.easy,
-                  currentDifficulty: currentDifficulty,
-                  onTap: switchDifficulty,
+            SegmentedContainer(
+              segments: <Segment>[
+                Segment(
+                  label: "Easy",
+                  value: DifficultyTypes.easy,
+                  currentValue: currentDifficulty,
+                  updateCurrentValue: switchDifficulty,
                 ),
-                DifficultyNewMatchItem(
-                  difficulty: DifficultyTypes.medium,
-                  currentDifficulty: currentDifficulty,
-                  onTap: switchDifficulty,
+                Segment(
+                  label: "Medium",
+                  value: DifficultyTypes.medium,
+                  currentValue: currentDifficulty,
+                  updateCurrentValue: switchDifficulty,
                 ),
-                DifficultyNewMatchItem(
-                  difficulty: DifficultyTypes.hard,
-                  currentDifficulty: currentDifficulty,
-                  onTap: switchDifficulty,
+                Segment(
+                  label: "Hard",
+                  value: DifficultyTypes.hard,
+                  currentValue: currentDifficulty,
+                  updateCurrentValue: switchDifficulty,
                 ),
               ],
             ),
