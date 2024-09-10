@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_trivia/themes/theme_data.dart';
+import 'package:flutter_trivia/utils/conts.dart';
 
 class PrimaryButton extends StatelessWidget {
   final Function onTap;
@@ -22,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
         child: Ink(
           padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: AppBorder.button,
             color: theme.colorScheme.primaryContainer,
             boxShadow: kElevationToShadow[1],
           ),

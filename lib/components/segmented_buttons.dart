@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trivia/themes/theme_data.dart';
+import 'package:flutter_trivia/utils/conts.dart';
 
 class SegmentedContainer extends StatelessWidget {
   final List<Segment> segments;
@@ -55,7 +56,7 @@ class Segment extends StatelessWidget {
           child: Ink(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: AppBorder.segment,
                 color: (value == currentValue)
                     ? theme.colorScheme.primary
                     : theme.colorScheme.surfaceDim),

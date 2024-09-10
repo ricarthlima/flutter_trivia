@@ -3,6 +3,7 @@ import 'package:flutter_trivia/components/segmented_buttons.dart';
 import 'package:flutter_trivia/themes/theme_data.dart';
 import 'package:flutter_trivia/trivia/api/trivia_api.dart';
 import 'package:flutter_trivia/trivia/screens/home_screen.dart';
+import 'package:flutter_trivia/utils/conts.dart';
 
 class NewMatchScreen extends StatefulWidget {
   const NewMatchScreen({super.key});
@@ -133,31 +134,34 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey[700],
-                borderRadius: BorderRadius.circular(16),
+                color: theme.colorScheme.primaryContainer,
+                borderRadius: AppBorder.card,
               ),
               padding: const EdgeInsets.all(16),
               child: (listaCategoriasSelecionadas.isEmpty)
-                  ? const Text(
+                  ? Text(
                       "Nenhuma categoria selecionada",
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
                     )
                   : Wrap(
                       children: List.generate(
                         listaCategoriasSelecionadas.length,
                         (index) {
                           String categoria = listaCategoriasSelecionadas[index];
-                          return ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                listaCategoriasSelecionadas.remove(categoria);
-                                listaCategoriasDisponiveis.add(categoria);
-
-                                listaCategoriasDisponiveis.sort();
-                              });
-                            },
-                            child: Text(categoria),
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  listaCategoriasSelecionadas.remove(categoria);
+                                  listaCategoriasDisponiveis.add(categoria);
+                            
+                                  listaCategoriasDisponiveis.sort();
+                                });
+                              },
+                              child: Text(categoria),
+                            ),
                           );
                         },
                       ),
@@ -169,16 +173,19 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
                 listaCategoriasDisponiveis.length,
                 (index) {
                   String categoria = listaCategoriasDisponiveis[index];
-                  return ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        listaCategoriasSelecionadas.add(categoria);
-                        listaCategoriasDisponiveis.remove(categoria);
-
-                        listaCategoriasSelecionadas.sort();
-                      });
-                    },
-                    child: Text(categoria),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          listaCategoriasSelecionadas.add(categoria);
+                          listaCategoriasDisponiveis.remove(categoria);
+                    
+                          listaCategoriasSelecionadas.sort();
+                        });
+                      },
+                      child: Text(categoria),
+                    ),
                   );
                 },
               ),
