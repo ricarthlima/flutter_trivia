@@ -5,6 +5,8 @@ import 'package:flutter_trivia/trivia/api/trivia_api.dart';
 import 'package:flutter_trivia/trivia/screens/home_screen.dart';
 import 'package:flutter_trivia/utils/conts.dart';
 
+import 'loading_screen.dart';
+
 class NewMatchScreen extends StatefulWidget {
   const NewMatchScreen({super.key});
 
@@ -15,6 +17,7 @@ class NewMatchScreen extends StatefulWidget {
 class _NewMatchScreenState extends State<NewMatchScreen> {
   double amountQuestions = 1;
   String currentDifficulty = DifficultyTypes.easy;
+
   Map<String, int> mapCategorias = {
     "Geral": CategoryTypes.general,
     "Livros": CategoryTypes.books,
@@ -58,11 +61,20 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // TriviaApi().generateQuestionsByUser(
-              //   amount: amountQuestions.toInt(),
-              //   difficulty: currentDifficulty,
-              //   categories: listaCategoriasSelecionadas,
-              // );
+              TriviaApi().generateQuestionsByUser(
+                amount: amountQuestions.toInt(),
+                difficulty: currentDifficulty,
+                categories: getIntCategory(),
+              );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoadingScreen(
+                      amount: amountQuestions.toInt(),
+                      difficulty: currentDifficulty,
+                      categories: getIntCategory(),
+                    ),
+                  ));
             },
             icon: const Icon(Icons.check),
           ),
@@ -142,7 +154,8 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
                   ? Text(
                       "Nenhuma categoria selecionada",
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+                      style: TextStyle(
+                          color: theme.colorScheme.onPrimaryContainer),
                     )
                   : Wrap(
                       children: List.generate(
@@ -150,13 +163,14 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
                         (index) {
                           String categoria = listaCategoriasSelecionadas[index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: ElevatedButton(
                               onPressed: () {
                                 setState(() {
                                   listaCategoriasSelecionadas.remove(categoria);
                                   listaCategoriasDisponiveis.add(categoria);
-                            
+
                                   listaCategoriasDisponiveis.sort();
                                 });
                               },
@@ -180,7 +194,7 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
                         setState(() {
                           listaCategoriasSelecionadas.add(categoria);
                           listaCategoriasDisponiveis.remove(categoria);
-                    
+
                           listaCategoriasSelecionadas.sort();
                         });
                       },
@@ -201,5 +215,13 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
     setState(() {
       currentDifficulty = difficulty;
     });
+  }
+
+  List<int> getIntCategory() {
+    return listaCategoriasSelecionadas.map(
+      (stringCategory) {
+        return mapCategorias[stringCategory]!;
+      },
+    ).toList();
   }
 }

@@ -61,21 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-
-      // Center(
-      //   child: ElevatedButton(
-      //     onPressed: () {
-      //       _api
-      //           .getQuestions(amount: 1, category: CategoryTypes.animeManga)
-      //           .then(
-      //         (listQuestion) {
-      //           startGame(context, listQuestion);
-      //         },
-      //       );
-      //     },
-      //     child: const Text("Desafie-me"),
-      //   ),
-      // ),
     );
   }
 

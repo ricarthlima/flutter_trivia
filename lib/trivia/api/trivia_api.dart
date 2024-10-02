@@ -12,13 +12,16 @@ class TriviaApi {
 
   Future<List<Question>> getQuestions(
       {required int amount, required int category}) async {
-    Response response = await _dio.get("", queryParameters: {
-      _APIParams.amount: amount,
-      _APIParams.category: category,
-      _APIParams.difficulty: DifficultyTypes.hard,
-      _APIParams.type: "multiple",
-      _APIParams.encode: "url3986",
-    });
+    Response response = await _dio.get(
+      "",
+      queryParameters: {
+        _APIParams.amount: amount,
+        _APIParams.category: category,
+        _APIParams.difficulty: DifficultyTypes.hard,
+        _APIParams.type: "multiple",
+        _APIParams.encode: "url3986",
+      },
+    );
 
     List<Question> questions = [];
 
@@ -30,43 +33,50 @@ class TriviaApi {
     return questions;
   }
 
-  // Future<List<Question>> generateQuestionsByUser({
-  //   required int amount,
-  //   required String difficulty,
-  //   required List<String> categories,
-  // }) async {
-  //   List<Future<Response>> listaOperacoes = [];
+  Future<List<Question>> generateQuestionsByUser({
+    required int amount,
+    required String difficulty,
+    required List<int> categories,
+  }) async {
+    List<Question> listQuestions = [];
 
-  //   int quo = amount ~/ categories.length;
-  //   int resto = amount % categories.length;
+    int quo = amount ~/ categories.length;
+    int resto = amount % categories.length;
 
-  //   int indexRandom = Random().nextInt(categories.length);
+    int indexRandom = Random().nextInt(categories.length);
 
-  //   for (String categoria in categories) {
-  //     int innerAmount = quo;
+    for (int categoria in categories) {
+      int innerAmount = quo;
 
-  //     if (categories[indexRandom] == categoria) {
-  //       innerAmount += resto;
-  //     }
+      if (categories[indexRandom] == categoria) {
+        innerAmount += resto;
+      }
 
-  //     listaOperacoes.add(
-  //       _dio.get(
-  //         "",
-  //         queryParameters: {
-  //           _APIParams.amount: innerAmount,
-  //           _APIParams.category: categoria,
-  //           _APIParams.difficulty: difficulty,
-  //           _APIParams.type: "multiple",
-  //           _APIParams.encode: "url3986",
-  //         },
-  //       ),
-  //     );
-  //   }
+      Response response = await _dio.get(
+        "",
+        queryParameters: {
+          _APIParams.amount: innerAmount,
+          _APIParams.category: categoria,
+          _APIParams.difficulty: difficulty,
+          _APIParams.type: "multiple",
+          _APIParams.encode: "url3986",
+        },
+      );
 
-  //   List<Response> listResponse = await Future.wait(listaOperacoes);
-  //   //TODO: Tratar cada uma das respostas, para transformar em uma
-  //   // grande lista de Question
-  // }
+      for (dynamic map in response.data["results"]) {
+        Question question = Question.fromMap(map);
+        listQuestions.add(question);
+      }
+
+      //TODO: Estamos tendo problemas com múltiplas categorias
+      //pois está dando um 429 as múltiplas requisições;
+      await Future.delayed(const Duration(seconds: 6));
+    }
+
+    listQuestions.shuffle();
+
+    return listQuestions;
+  }
 }
 
 class _APIParams {
